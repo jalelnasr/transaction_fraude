@@ -1,0 +1,49 @@
+@if (authService.isAuthenticated()) {
+  <img src="/images/flags-badge.jpg" alt="Tunisie - Palestine" class="global-flags-badge" />
+
+  <div class="layout">
+    <aside class="sidebar" [class.collapsed]="layoutService.sidebarCollapsed()">
+      <div class="brand">
+        <img src="/images/bct-logo.jpg" alt="BCT" class="brand-logo" />
+        <div class="brand-text">
+          <span class="brand-title">Fraud Platform</span>
+          <span class="brand-subtitle">Banque Centrale de Tunisie</span>
+        </div>
+      </div>
+
+      <nav>
+        <a routerLink="/dashboard" routerLinkActive="active" title="Tableau de bord">
+          <span class="icon">&#9635;</span> <span class="nav-label">Tableau de bord</span>
+        </a>
+        <a routerLink="/transactions" routerLinkActive="active" title="Transactions">
+          <span class="icon">&#8644;</span> <span class="nav-label">Transactions</span>
+        </a>
+        <a routerLink="/alerts" routerLinkActive="active" title="Alertes">
+          <span class="icon">&#9888;</span> <span class="nav-label">Alertes</span>
+        </a>
+        <a routerLink="/rules" routerLinkActive="active" title="Regles">
+          <span class="icon">&#9881;</span> <span class="nav-label">Regles</span>
+        </a>
+      </nav>
+
+      <div class="user-box">
+        <div class="avatar">{{ authService.username()?.charAt(0)?.toUpperCase() }}</div>
+        <div class="user-info">
+          <span class="user-name">{{ authService.username() }}</span>
+          <span class="user-role">{{ displayRole }}</span>
+        </div>
+        <button (click)="logout()" title="Deconnexion">&#10162;</button>
+      </div>
+    </aside>
+
+    <button class="sidebar-toggle" (click)="toggleSidebar()" [title]="layoutService.sidebarCollapsed() ? 'Afficher le menu' : 'Masquer le menu'">
+      {{ layoutService.sidebarCollapsed() ? '»' : '«' }}
+    </button>
+
+    <main class="content">
+      <router-outlet />
+    </main>
+  </div>
+} @else {
+  <router-outlet />
+}

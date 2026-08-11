@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+scikit-learn
+pandas
+numpy
+joblib
+kafka-python-ng
+shap
+prometheus-fastapi-instrumentator
+python-dotenv==1.0.1

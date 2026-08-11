@@ -1,0 +1,19 @@
+{
+  "model_version": "v1",
+  "dataset": "AIML Dataset.csv (PaySim)",
+  "trained_at": "2026-08-10T12:19:02.244565+00:00",
+  "training_rows": 86570,
+  "test_rows": 21643,
+  "roc_auc": 0.9987,
+  "features": {
+    "numeric": [
+      "amount",
+      "sourceBalanceBefore",
+      "destinationBalanceBefore",
+      "is_night_hour"
+    ],
+    "categorical": [
+      "channel"
+    ]
+  }
+}

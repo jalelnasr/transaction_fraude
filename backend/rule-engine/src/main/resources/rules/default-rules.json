@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Montant eleve",
+    "type": "AMOUNT_THRESHOLD",
+    "active": true,
+    "weight": 0.4,
+    "thresholdAmount": 5000.00
+  },
+  {
+    "name": "Pays a risque",
+    "type": "GEOLOCATION",
+    "active": true,
+    "weight": 0.3,
+    "riskCountries": "KP,IR,SY"
+  },
+  {
+    "name": "Frequence anormale",
+    "type": "VELOCITY",
+    "active": true,
+    "weight": 0.2,
+    "maxTransactionsPerWindow": 5,
+    "windowMinutes": 10
+  },
+  {
+    "name": "Heure creuse a risque",
+    "type": "TIME_PATTERN",
+    "active": true,
+    "weight": 0.1,
+    "nightStartHour": 1,
+    "nightEndHour": 5
+  }
+]

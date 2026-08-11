@@ -1,0 +1,57 @@
+<div class="login-page">
+  <div class="brand-panel">
+    <div class="brand-content">
+      <img src="/images/bct-logo.jpg" alt="Banque Centrale de Tunisie" class="brand-logo" />
+      <h1>Plateforme Intelligente<br />de Detection de Fraude</h1>
+      <p>Banque Centrale de Tunisie</p>
+      
+    </div>
+    <div class="brand-glow"></div>
+  </div>
+
+  <div class="form-panel">
+    <form class="login-card" (ngSubmit)="onSubmit()">
+      <img src="/images/bct-logo.jpg" alt="BCT" class="mobile-logo" />
+      <h2>Connexion</h2>
+      <p class="subtitle">Accedez a votre espace de supervision</p>
+
+      <label>
+        <span class="field-name">Utilisateur</span>
+        <input
+          type="text"
+          name="username"
+          [(ngModel)]="username"
+          required
+          autocomplete="username"
+          
+        />
+      </label>
+
+      <label>
+        <span class="field-name">Mot de passe</span>
+        <input
+          type="password"
+          name="password"
+          [(ngModel)]="password"
+          required
+          autocomplete="current-password"
+          
+        />
+      </label>
+
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+
+      <button type="submit" [disabled]="loading()">
+        @if (loading()) {
+          <span class="spinner"></span> Connexion...
+        } @else {
+          Se connecter
+        }
+      </button>
+
+      <p class="footer-note">Acces reserve au personnel autorise de la BCT</p>
+    </form>
+  </div>
+</div>

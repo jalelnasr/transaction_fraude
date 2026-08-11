@@ -1,0 +1,40 @@
+<div class="page">
+  <app-page-header title="Transactions ({{ totalElements() }})" subtitle="Historique des transactions traitees par la plateforme"></app-page-header>
+
+  @if (loading()) {
+    <p>Chargement...</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Montant</th>
+          <th>Canal</th>
+          <th>Compte source</th>
+          <th>Compte destination</th>
+          <th>Pays</th>
+          <th>Statut</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (tx of transactions(); track tx.transactionId) {
+          <tr>
+            <td class="mono">
+              <a class="row-link" [routerLink]="['/transactions', tx.transactionId]">{{ displayId(tx.transactionId) }}</a>
+            </td>
+            <td>{{ tx.amount | number: '1.2-2' }} {{ tx.currency }}</td>
+            <td>{{ tx.channel }}</td>
+            <td class="mono">{{ tx.sourceAccountId }}</td>
+            <td class="mono">{{ tx.destinationAccountId }}</td>
+            <td>{{ tx.country || '-' }}</td>
+            <td>{{ tx.status }}</td>
+            <td>{{ tx.timestamp | date: 'short' }}</td>
+          </tr>
+        } @empty {
+          <tr><td colspan="8">Aucune transaction.</td></tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

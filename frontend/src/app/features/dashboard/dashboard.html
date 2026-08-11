@@ -1,0 +1,69 @@
+<div class="page">
+  <app-page-header title="Vue d'ensemble" subtitle="Supervision de la detection de fraude en temps reel"></app-page-header>
+
+  @if (loading()) {
+    <p>Chargement...</p>
+  } @else {
+    <div class="cards">
+      <a class="card" routerLink="/alerts">
+        <span class="card-icon">&#128203;</span>
+        <span class="value">{{ alerts().length }}</span>
+        <span class="label">Alertes totales</span>
+      </a>
+      <a class="card open" routerLink="/alerts" [queryParams]="{ alertStatus: 'OPEN' }">
+        <span class="card-icon">&#128276;</span>
+        <span class="value">{{ openCount }}</span>
+        <span class="label">Alertes ouvertes</span>
+      </a>
+      <a class="card monitored" routerLink="/alerts" [queryParams]="{ decisionStatus: 'MONITORED' }">
+        <span class="card-icon">&#128064;</span>
+        <span class="value">{{ monitoredCount }}</span>
+        <span class="label">A surveiller</span>
+      </a>
+      <a class="card blocked" routerLink="/alerts" [queryParams]="{ decisionStatus: 'BLOCKED' }">
+        <span class="card-icon">&#9940;</span>
+        <span class="value">{{ blockedCount }}</span>
+        <span class="label">Bloquees</span>
+      </a>
+    </div>
+
+    <div class="section-header">
+      <h2>Alertes recentes</h2>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Rechercher une transaction, un statut..."
+        [(ngModel)]="searchTerm"
+        name="search"
+      />
+    </div>
+    <table class="alert-table">
+      <thead>
+        <tr>
+          <th>Transaction</th>
+          <th>Decision</th>
+          <th>Score</th>
+          <th>Statut</th>
+          <th>Cree le</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (alert of recentAlerts; track alert.id) {
+          <tr>
+            <td class="mono">{{ displayId(alert.transactionId) }}</td>
+            <td>
+              <span class="badge" [class]="alert.decisionStatus.toLowerCase()">{{ alert.decisionStatus }}</span>
+            </td>
+            <td>{{ alert.fusedScore | number: '1.2-2' }}</td>
+            <td>{{ alert.alertStatus }}</td>
+            <td>{{ alert.createdAt | date: 'short' }}</td>
+          </tr>
+        } @empty {
+          <tr><td colspan="5">Aucune alerte pour le moment.</td></tr>
+        }
+      </tbody>
+    </table>
+
+    <a routerLink="/alerts" class="link">Voir toutes les alertes -&gt;</a>
+  }
+</div>

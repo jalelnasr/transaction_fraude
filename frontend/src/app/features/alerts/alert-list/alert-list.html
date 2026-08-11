@@ -1,0 +1,68 @@
+<div class="page">
+  <app-page-header title="Alertes" subtitle="Transactions suspectes a analyser et traiter"></app-page-header>
+
+  @if (loading()) {
+    <p>Chargement...</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>Transaction</th>
+          <th>Decision</th>
+          <th>Score</th>
+          <th>Statut alerte</th>
+          <th>Cree le</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (alert of alerts(); track alert.id) {
+          <tr>
+            <td class="mono">
+              <a
+                class="row-link"
+                [routerLink]="['/transactions', alert.transactionId]"
+                [queryParams]="{ alertId: alert.id }"
+              >{{ alert.transactionId }}</a>
+            </td>
+            <td><span class="badge" [class]="alert.decisionStatus.toLowerCase()">{{ alert.decisionStatus }}</span></td>
+            <td>{{ alert.fusedScore | number: '1.2-2' }}</td>
+            <td>{{ alert.alertStatus }}</td>
+            <td>{{ alert.createdAt | date: 'short' }}</td>
+            <td>
+              @if (alert.alertStatus === 'OPEN') {
+                <button class="btn btn-secondary" (click)="startResolve(alert.id)">Traiter</button>
+              } @else {
+                <span class="mono">{{ alert.resolvedBy }}</span>
+              }
+            </td>
+          </tr>
+
+          @if (activeAlertId() === alert.id) {
+            <tr class="resolve-row">
+              <td colspan="6">
+                <div class="resolve-panel">
+                  <input
+                    type="text"
+                    placeholder="Motif (obligatoire pour lever)"
+                    [(ngModel)]="reason"
+                    name="reason-{{ alert.id }}"
+                  />
+                  <button class="btn btn-primary" (click)="resolve('VALIDATED')">Valider</button>
+                  <button class="btn btn-danger" (click)="resolve('DISMISSED')">Lever</button>
+                  <button class="btn btn-secondary" (click)="resolve('ESCALATED')">Escalader</button>
+                  <button class="btn btn-secondary" (click)="cancelResolve()">Annuler</button>
+                </div>
+                @if (error()) {
+                  <p class="error">{{ error() }}</p>
+                }
+              </td>
+            </tr>
+          }
+        } @empty {
+          <tr><td colspan="6">Aucune alerte.</td></tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

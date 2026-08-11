@@ -1,0 +1,4 @@
+logging:
+  level:
+    com.frauddetection: DEBUG
+    org.springframework.cloud.gateway: DEBUG

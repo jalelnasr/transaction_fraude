@@ -1,0 +1,31 @@
+.alert-table {
+  width: 100%;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 2.25rem 0 1rem;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.search-input {
+  width: 280px;
+  max-width: 100%;
+  padding: 0.55rem 0.9rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  background: #fff;
+
+  &:focus {
+    outline: none;
+    border-color: #0f3d68;
+    box-shadow: 0 0 0 3px rgba(15, 61, 104, 0.1);
+  }
+}

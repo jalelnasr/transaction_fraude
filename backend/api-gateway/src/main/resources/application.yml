@@ -1,0 +1,43 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      httpclient:
+        connect-timeout: 5000
+        response-timeout: 10s
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${KEYCLOAK_JWK_SET_URI:http://localhost:8180/realms/fraud-detection/protocol/openid-connect/certs}
+
+services:
+  transaction-service:
+    url: ${TRANSACTION_SERVICE_URL:http://localhost:8081}
+  rule-engine:
+    url: ${RULE_ENGINE_URL:http://localhost:8082}
+  ml-engine:
+    url: ${ML_ENGINE_URL:http://localhost:8083}
+  fraud-decision-engine:
+    url: ${FRAUD_DECISION_ENGINE_URL:http://localhost:8084}
+  explainability-engine:
+    url: ${EXPLAINABILITY_ENGINE_URL:http://localhost:8085}
+  notification-service:
+    url: ${NOTIFICATION_SERVICE_URL:http://localhost:8086}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus,info,gateway
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.frauddetection: INFO

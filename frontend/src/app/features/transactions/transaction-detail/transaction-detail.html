@@ -1,0 +1,66 @@
+<div class="page">
+  <a class="link" (click)="goBack()">&lt;- Retour aux alertes</a>
+  <app-page-header title="Detail de la transaction" subtitle="Vue complete, decision et justification"></app-page-header>
+
+  @if (loading()) {
+    <p>Chargement...</p>
+  } @else {
+    @if (transaction(); as tx) {
+      <div class="panel">
+        <h2>Champs de la transaction</h2>
+        <div class="grid">
+          <div><span class="field-label">ID</span><span class="mono">{{ tx.transactionId }}</span></div>
+          <div><span class="field-label">Montant</span><span>{{ tx.amount | number: '1.2-2' }} {{ tx.currency }}</span></div>
+          <div><span class="field-label">Canal</span><span>{{ tx.channel }}</span></div>
+          <div><span class="field-label">Compte source</span><span class="mono">{{ tx.sourceAccountId }}</span></div>
+          <div><span class="field-label">Compte destination</span><span class="mono">{{ tx.destinationAccountId }}</span></div>
+          <div><span class="field-label">Pays</span><span>{{ tx.country || 'Non renseigne' }}</span></div>
+          <div><span class="field-label">Date</span><span>{{ tx.timestamp | date: 'medium' }}</span></div>
+          <div><span class="field-label">Statut transaction</span><span>{{ tx.status }}</span></div>
+        </div>
+      </div>
+    } @else {
+      <p class="warning">Transaction introuvable.</p>
+    }
+
+    @if (decision(); as dec) {
+      <div class="panel">
+        <h2>Decision automatique</h2>
+        <div class="grid">
+          <div><span class="field-label">Statut</span><span class="badge" [class]="dec.status.toLowerCase()">{{ dec.status }}</span></div>
+          <div><span class="field-label">Score fusionne</span><span>{{ dec.fusedScore | number: '1.2-2' }}</span></div>
+          <div><span class="field-label">Score regles</span><span>{{ dec.ruleScore ?? '-' | number: '1.2-2' }}</span></div>
+          <div><span class="field-label">Score ML</span><span>{{ dec.mlScore ?? '-' | number: '1.2-2' }}</span></div>
+          <div><span class="field-label">Mode degrade</span><span>{{ dec.degradedMode ? 'Oui' : 'Non' }}</span></div>
+          <div><span class="field-label">Decide le</span><span>{{ dec.decidedAt | date: 'medium' }}</span></div>
+        </div>
+      </div>
+    }
+
+    @if (explanation(); as exp) {
+      <div class="panel">
+        <h2>Justification</h2>
+        <p class="justification">{{ exp.justification }}</p>
+      </div>
+    }
+
+    @if (alertId && !resolved()) {
+      <div class="panel">
+        <h2>Traiter cette alerte</h2>
+        <div class="resolve-panel">
+          <input type="text" placeholder="Motif (obligatoire pour lever)" [(ngModel)]="reason" name="reason" />
+          <button class="btn btn-primary" (click)="resolve('VALIDATED')">Valider</button>
+          <button class="btn btn-danger" (click)="resolve('DISMISSED')">Lever</button>
+          <button class="btn btn-secondary" (click)="resolve('ESCALATED')">Escalader</button>
+        </div>
+        @if (resolveError()) {
+          <p class="error">{{ resolveError() }}</p>
+        }
+      </div>
+    }
+
+    @if (resolved()) {
+      <p class="success">Alerte traitee avec succes.</p>
+    }
+  }
+</div>
