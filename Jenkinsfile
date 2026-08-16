@@ -3,6 +3,10 @@ pipeline {
 
     environment {
         SONAR_PROJECT_KEY = 'fraud-detection-platform'
+        // Le reseau Docker de cette machine devient instable quand Maven telecharge
+        // beaucoup de dependances en parallele (plusieurs echecs de transfert
+        // constates). On force un telechargement sequentiel, plus lent mais fiable.
+        MAVEN_OPTS = '-Daether.connector.basic.threads=1'
     }
 
     stages {
