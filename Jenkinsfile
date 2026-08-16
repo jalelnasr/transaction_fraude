@@ -44,13 +44,18 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 dir('frontend') {
-                    // Meme instabilite reseau que pour Maven : on reduit le nombre
-                    // de connexions simultanees et on augmente les delais/tentatives.
-                    sh 'npm config set maxsockets 3'
+                    // npm n'a pas d'equivalent fiable au reglage qui a corrige Maven
+                    // (limiter les connexions simultanees). Le reseau Docker de cette
+                    // machine etant instable par intermittence, on retente jusqu'a
+                    // 3 fois : node_modules deja telecharge est conserve entre les
+                    // tentatives, donc chaque nouvel essai part avec moins de travail
+                    // restant, comme observe manuellement avec Maven.
                     sh 'npm config set fetch-retries 5'
                     sh 'npm config set fetch-retry-mintimeout 20000'
                     sh 'npm config set fetch-timeout 300000'
-                    sh 'npm ci'
+                    retry(3) {
+                        sh 'npm ci'
+                    }
                     sh 'npm run build -- --configuration production'
                 }
             }
