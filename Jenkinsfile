@@ -44,6 +44,12 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 dir('frontend') {
+                    // Meme instabilite reseau que pour Maven : on reduit le nombre
+                    // de connexions simultanees et on augmente les delais/tentatives.
+                    sh 'npm config set maxsockets 3'
+                    sh 'npm config set fetch-retries 5'
+                    sh 'npm config set fetch-retry-mintimeout 20000'
+                    sh 'npm config set fetch-timeout 300000'
                     sh 'npm ci'
                     sh 'npm run build -- --configuration production'
                 }
