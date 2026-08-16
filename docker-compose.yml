@@ -1,5 +1,41 @@
 services:
 
+  vault:
+    image: hashicorp/vault:1.15
+    container_name: fraud-vault
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: fraud-root-token
+      VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200
+    cap_add:
+      - IPC_LOCK
+
+  sonarqube:
+    image: sonarqube:community
+    container_name: fraud-sonarqube
+    environment:
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+    ports:
+      - "9000:9000"
+    volumes:
+      - sonarqube-data:/opt/sonarqube/data
+      - sonarqube-extensions:/opt/sonarqube/extensions
+      - sonarqube-logs:/opt/sonarqube/logs
+
+  jenkins:
+    build:
+      context: ./infra/jenkins
+    container_name: fraud-jenkins
+    ports:
+      - "8088:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins-home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      DOCKER_HOST: unix:///var/run/docker.sock
+
   postgres:
     image: postgres:16-alpine
     container_name: fraud-postgres
@@ -114,12 +150,16 @@ services:
       DB_HOST: postgres
       DB_PORT: "5432"
       KAFKA_BOOTSTRAP_SERVERS: kafka:19092
+      VAULT_HOST: vault
+      VAULT_TOKEN: fraud-root-token
     ports:
       - "8081:8081"
     depends_on:
       postgres:
         condition: service_healthy
       kafka:
+        condition: service_started
+      vault:
         condition: service_started
 
   rule-engine:
@@ -129,12 +169,16 @@ services:
       DB_HOST: postgres
       DB_PORT: "5432"
       KAFKA_BOOTSTRAP_SERVERS: kafka:19092
+      VAULT_HOST: vault
+      VAULT_TOKEN: fraud-root-token
     ports:
       - "8082:8082"
     depends_on:
       postgres:
         condition: service_healthy
       kafka:
+        condition: service_started
+      vault:
         condition: service_started
 
   ml-engine:
@@ -154,12 +198,16 @@ services:
       DB_HOST: postgres
       DB_PORT: "5432"
       KAFKA_BOOTSTRAP_SERVERS: kafka:19092
+      VAULT_HOST: vault
+      VAULT_TOKEN: fraud-root-token
     ports:
       - "8084:8084"
     depends_on:
       postgres:
         condition: service_healthy
       kafka:
+        condition: service_started
+      vault:
         condition: service_started
 
   explainability-engine:
@@ -169,12 +217,16 @@ services:
       DB_HOST: postgres
       DB_PORT: "5432"
       KAFKA_BOOTSTRAP_SERVERS: kafka:19092
+      VAULT_HOST: vault
+      VAULT_TOKEN: fraud-root-token
     ports:
       - "8085:8085"
     depends_on:
       postgres:
         condition: service_healthy
       kafka:
+        condition: service_started
+      vault:
         condition: service_started
 
   notification-service:
@@ -185,12 +237,16 @@ services:
       DB_PORT: "5432"
       KAFKA_BOOTSTRAP_SERVERS: kafka:19092
       TRANSACTION_SERVICE_URL: http://transaction-service:8081
+      VAULT_HOST: vault
+      VAULT_TOKEN: fraud-root-token
     ports:
       - "8086:8086"
     depends_on:
       postgres:
         condition: service_healthy
       kafka:
+        condition: service_started
+      vault:
         condition: service_started
 
   audit-service:
@@ -200,12 +256,16 @@ services:
       DB_HOST: postgres
       DB_PORT: "5432"
       KAFKA_BOOTSTRAP_SERVERS: kafka:19092
+      VAULT_HOST: vault
+      VAULT_TOKEN: fraud-root-token
     ports:
       - "8087:8087"
     depends_on:
       postgres:
         condition: service_healthy
       kafka:
+        condition: service_started
+      vault:
         condition: service_started
 
   api-gateway:
@@ -236,3 +296,7 @@ volumes:
   prometheus-data:
   loki-data:
   grafana-data:
+  sonarqube-data:
+  sonarqube-extensions:
+  sonarqube-logs:
+  jenkins-home:

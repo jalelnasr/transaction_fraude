@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    vault:
+      uri: http://${VAULT_HOST:localhost}:8200
+      token: ${VAULT_TOKEN:fraud-root-token}
+      kv:
+        enabled: true
+        backend: secret
+        default-context: fraud-platform/database
+      fail-fast: true
