@@ -14,7 +14,7 @@ pipeline {
 
         stage('Build Backend') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                sh 'mvn -B -U -DskipTests clean package'
             }
         }
 
