@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rule-engine
+  namespace: fraud-detection
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: rule-engine }
+  template:
+    metadata:
+      labels: { app: rule-engine }
+    spec:
+      containers:
+        - name: rule-engine
+          image: fraud/rule-engine:latest
+          imagePullPolicy: Never
+          ports: [{ containerPort: 8082 }]
+          envFrom:
+            - configMapRef: { name: fraud-config }
+            - secretRef: { name: fraud-db-secret }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rule-engine
+  namespace: fraud-detection
+spec:
+  selector: { app: rule-engine }
+  ports: [{ port: 8082, targetPort: 8082 }]

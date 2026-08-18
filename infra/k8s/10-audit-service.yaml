@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: audit-service
+  namespace: fraud-detection
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: audit-service }
+  template:
+    metadata:
+      labels: { app: audit-service }
+    spec:
+      containers:
+        - name: audit-service
+          image: fraud/audit-service:latest
+          imagePullPolicy: Never
+          ports: [{ containerPort: 8087 }]
+          envFrom:
+            - configMapRef: { name: fraud-config }
+            - secretRef: { name: fraud-db-secret }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: audit-service
+  namespace: fraud-detection
+spec:
+  selector: { app: audit-service }
+  ports: [{ port: 8087, targetPort: 8087 }]

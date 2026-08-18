@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-service
+  namespace: fraud-detection
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: notification-service }
+  template:
+    metadata:
+      labels: { app: notification-service }
+    spec:
+      containers:
+        - name: notification-service
+          image: fraud/notification-service:latest
+          imagePullPolicy: Never
+          ports: [{ containerPort: 8086 }]
+          envFrom:
+            - configMapRef: { name: fraud-config }
+            - secretRef: { name: fraud-db-secret }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-service
+  namespace: fraud-detection
+spec:
+  selector: { app: notification-service }
+  ports: [{ port: 8086, targetPort: 8086 }]

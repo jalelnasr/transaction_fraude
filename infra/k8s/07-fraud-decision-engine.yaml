@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fraud-decision-engine
+  namespace: fraud-detection
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: fraud-decision-engine }
+  template:
+    metadata:
+      labels: { app: fraud-decision-engine }
+    spec:
+      containers:
+        - name: fraud-decision-engine
+          image: fraud/fraud-decision-engine:latest
+          imagePullPolicy: Never
+          ports: [{ containerPort: 8084 }]
+          envFrom:
+            - configMapRef: { name: fraud-config }
+            - secretRef: { name: fraud-db-secret }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fraud-decision-engine
+  namespace: fraud-detection
+spec:
+  selector: { app: fraud-decision-engine }
+  ports: [{ port: 8084, targetPort: 8084 }]
