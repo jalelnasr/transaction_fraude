@@ -1,0 +1,28 @@
+server:
+  port: 8089
+
+spring:
+  application:
+    name: graph-engine
+
+  neo4j:
+    uri: bolt://${NEO4J_HOST:localhost}:7687
+    authentication:
+      username: neo4j
+      password: ${NEO4J_PASSWORD:fraudgraph}
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus,info
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.frauddetection: INFO
