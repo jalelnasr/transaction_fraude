@@ -30,6 +30,7 @@
         <module>backend/explainability-engine</module>
         <module>backend/notification-service</module>
         <module>backend/audit-service</module>
+        <module>backend/graph-engine</module>
     </modules>
 
     <dependencyManagement>
