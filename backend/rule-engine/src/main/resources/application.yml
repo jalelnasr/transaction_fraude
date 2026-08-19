@@ -25,6 +25,9 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
+graph-engine:
+  url: ${GRAPH_ENGINE_URL:http://localhost:8089}
+
 management:
   endpoints:
     web:
