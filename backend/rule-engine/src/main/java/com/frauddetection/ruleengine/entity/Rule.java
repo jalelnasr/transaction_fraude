@@ -58,6 +58,12 @@ public class Rule {
     @Column(name = "night_end_hour")
     private Integer nightEndHour;
 
+    @Column(name = "blacklisted_accounts")
+    private String blacklistedAccounts;
+
+    @Column(name = "deviation_multiplier")
+    private Double deviationMultiplier;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 

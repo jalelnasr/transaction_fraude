@@ -3,11 +3,12 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { WaveBanner } from '../../../shared/components/wave-banner/wave-banner';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, WaveBanner],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })

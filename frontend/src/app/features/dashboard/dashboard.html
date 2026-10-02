@@ -27,6 +27,183 @@
       </a>
     </div>
 
+    <h2>Statistiques</h2>
+
+    <div class="gauges-row">
+      @for (g of keyGauges; track g.label) {
+        <div class="gauge-card">
+          <div class="gauge-ring" [ngStyle]="gaugeStyle(g)">
+            <div class="gauge-inner">{{ g.percent }}%</div>
+          </div>
+          <span class="gauge-label">{{ g.label }}</span>
+        </div>
+      }
+    </div>
+
+    <div class="detection-band">
+      <div class="detection-ring-wrap">
+        <div
+          class="detection-ring"
+          [ngStyle]="{ background: 'conic-gradient(#f97316 ' + globalDetectionRate + '%, #facc15 ' + globalDetectionRate + '% ' + globalDetectionRate + '%, #14231e ' + globalDetectionRate + '% 100%)' }"
+        >
+          <div class="detection-inner">
+            <strong>{{ globalDetectionRate }}%</strong>
+            <span>detection</span>
+          </div>
+        </div>
+      </div>
+      <div class="detection-text">
+        <h2 class="chart-title">Taux global de detection</h2>
+        <p class="chart-subtitle">
+          Part des transactions marquees a risque (surveillees ou bloquees) sur l'ensemble des {{ totalTransactionCount }} transactions analysees.
+        </p>
+      </div>
+      <div class="mini-donuts">
+        @for (c of channelBlockRates; track c.label) {
+          <div class="mini-donut-card">
+            <div class="mini-donut" [ngStyle]="gaugeStyle(c)">
+              <div class="mini-donut-inner">{{ c.percent }}%</div>
+            </div>
+            <span class="mini-donut-label">{{ c.label }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div>
+            <h2 class="chart-title">Volume par devise</h2>
+            <p class="chart-subtitle">Montant total transige, par devise</p>
+          </div>
+          <span class="chart-total">{{ totalTransactionCount }} <small>transactions</small></span>
+        </div>
+        <div class="vertical-bars">
+          @for (c of currencyBreakdown; track c.currency) {
+            <div class="vbar-col">
+              <div class="vbar-track">
+                <div class="vbar-fill" [style.height.%]="c.percentOfMax"></div>
+              </div>
+              <span class="vbar-value">{{ c.total | number: '1.0-0' }}</span>
+              <span class="vbar-label">{{ c.currency }}</span>
+            </div>
+          } @empty {
+            <p class="empty-note">Aucune transaction pour le moment.</p>
+          }
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div>
+            <h2 class="chart-title">Transactions par statut</h2>
+            <p class="chart-subtitle">Repartition du pipeline de decision</p>
+          </div>
+        </div>
+        <div class="bar-list">
+          @for (s of statusBreakdown; track s.label) {
+            <div class="bar-row">
+              <span class="bar-label">{{ s.label }}</span>
+              <div class="bar-track">
+                <div class="bar-fill status" [class]="s.label.toLowerCase()" [style.width.%]="s.percentOfMax"></div>
+              </div>
+              <span class="bar-value">{{ s.count }}</span>
+            </div>
+          } @empty {
+            <p class="empty-note">Aucune transaction pour le moment.</p>
+          }
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div>
+            <h2 class="chart-title">Transactions par canal</h2>
+            <p class="chart-subtitle">Carte, virement, mobile...</p>
+          </div>
+        </div>
+        <div class="bar-list">
+          @for (c of channelBreakdown; track c.label) {
+            <div class="bar-row">
+              <span class="bar-label">{{ c.label }}</span>
+              <div class="bar-track">
+                <div class="bar-fill channel" [style.width.%]="c.percentOfMax"></div>
+              </div>
+              <span class="bar-value">{{ c.count }}</span>
+            </div>
+          } @empty {
+            <p class="empty-note">Aucune transaction pour le moment.</p>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-card wave-card">
+      <div class="chart-card-header">
+        <div>
+          <h2 class="chart-title">Evolution du score de fraude</h2>
+          <p class="chart-subtitle">Score fusionne de chaque alerte, dans l'ordre chronologique</p>
+        </div>
+      </div>
+      <svg class="risk-chart" viewBox="0 0 560 150" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="scoreGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f9b23c" stop-opacity="0.35" />
+            <stop offset="100%" stop-color="#f9b23c" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+        <path [attr.d]="scoreTrendPath.area" fill="url(#scoreGradient)" />
+        <path [attr.d]="scoreTrendPath.line" fill="none" stroke="#f9b23c" stroke-width="2.5" />
+      </svg>
+    </div>
+
+    <div class="stats-grid">
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div>
+            <h2 class="chart-title">Top pays a risque</h2>
+            <p class="chart-subtitle">Nombre de transactions par pays</p>
+          </div>
+        </div>
+        <div class="bar-list">
+          @for (c of topRiskyCountries; track c.label) {
+            <div class="bar-row">
+              <span class="bar-label">{{ c.label }}</span>
+              <div class="bar-track">
+                <div class="bar-fill country" [style.width.%]="c.percentOfMax"></div>
+              </div>
+              <span class="bar-value">{{ c.count }}</span>
+            </div>
+          } @empty {
+            <p class="empty-note">Aucune donnee pays.</p>
+          }
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div>
+            <h2 class="chart-title">Score moyen par statut</h2>
+            <p class="chart-subtitle">Score fusionne moyen (%) selon la decision</p>
+          </div>
+        </div>
+        <div class="vertical-bars small">
+          @for (s of avgScoreByStatus; track s.label) {
+            <div class="vbar-col">
+              <div class="vbar-track">
+                <div class="vbar-fill status" [class]="s.label.toLowerCase()" [style.height.%]="s.percentOfMax"></div>
+              </div>
+              <span class="vbar-value">{{ s.count }}%</span>
+              <span class="vbar-label">{{ s.label }}</span>
+            </div>
+          } @empty {
+            <p class="empty-note">Aucune alerte pour le moment.</p>
+          }
+        </div>
+      </div>
+    </div>
+
     <div class="section-header">
       <h2>Alertes recentes</h2>
       <input

@@ -31,6 +31,11 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () => import('./features/rules/rule-list/rule-list').then((m) => m.RuleList),
   },
+  {
+    path: 'kpi',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/kpi/kpi').then((m) => m.Kpi),
+  },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '**', redirectTo: 'dashboard' },
 ];

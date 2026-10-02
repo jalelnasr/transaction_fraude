@@ -1,0 +1,133 @@
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.kpi-card {
+  background: #0d1815;
+  border: 1px solid #182722;
+  border-radius: 14px;
+  padding: 1.05rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  position: relative;
+
+  &.wide {
+    grid-column: span 2;
+  }
+
+  &.attention {
+    border-color: #f87171;
+  }
+}
+
+.kpi-icon {
+  font-size: 1.3rem;
+  opacity: 0.7;
+  margin-bottom: 0.4rem;
+}
+
+.kpi-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #f1f5f3;
+
+  small {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #7b8f88;
+    margin-left: 2px;
+  }
+}
+
+.kpi-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #d5e3de;
+}
+
+.kpi-sub {
+  font-size: 0.78rem;
+  color: #7b8f88;
+}
+
+.kpi-currency-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+}
+
+.kpi-currency-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 0.8rem;
+  background: #0a1512;
+  border-radius: 8px;
+}
+
+.kpi-currency-code {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #94a8a2;
+  text-transform: uppercase;
+}
+
+.kpi-currency-total {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #f87171;
+}
+
+.kpi-highlight {
+  margin-top: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.kpi-highlight-amount {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #f87171;
+}
+
+.kpi-highlight-meta {
+  font-size: 0.82rem;
+  color: #94a8a2;
+}
+
+.kpi-model {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.kpi-model-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #94a8a2;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #182722;
+
+  strong {
+    color: #f1f5f3;
+    font-weight: 700;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.empty-note {
+  color: #7b8f88;
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0;
+}

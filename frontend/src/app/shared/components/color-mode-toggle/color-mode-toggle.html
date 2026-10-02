@@ -1,0 +1,12 @@
+<button
+  type="button"
+  class="color-mode-toggle"
+  (click)="colorModeService.toggle()"
+  [title]="colorModeService.mode() === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'"
+>
+  @if (colorModeService.mode() === 'dark') {
+    <span>&#9728;</span>
+  } @else {
+    <span>&#9789;</span>
+  }
+</button>

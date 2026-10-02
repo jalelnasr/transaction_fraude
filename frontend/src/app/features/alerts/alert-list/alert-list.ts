@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { PageHeader } from '../../../shared/components/page-header/page-header';
@@ -20,6 +20,15 @@ export class AlertList implements OnInit {
   reason = '';
   error = signal<string | null>(null);
 
+  currentPage = signal(0);
+  readonly pageSize = 15;
+
+  totalPages = computed(() => Math.max(1, Math.ceil(this.alerts().length / this.pageSize)));
+  pagedAlerts = computed(() => {
+    const start = this.currentPage() * this.pageSize;
+    return this.alerts().slice(start, start + this.pageSize);
+  });
+
   constructor(private alertService: AlertService) {}
 
   ngOnInit(): void {
@@ -31,10 +40,23 @@ export class AlertList implements OnInit {
     this.alertService.list().subscribe({
       next: (alerts) => {
         this.alerts.set(alerts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
+        this.currentPage.set(0);
         this.loading.set(false);
       },
       error: () => this.loading.set(false),
     });
+  }
+
+  previousPage(): void {
+    if (this.currentPage() > 0) {
+      this.currentPage.update((p) => p - 1);
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage() < this.totalPages() - 1) {
+      this.currentPage.update((p) => p + 1);
+    }
   }
 
   startResolve(alertId: string): void {

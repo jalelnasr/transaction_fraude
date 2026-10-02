@@ -1,0 +1,104 @@
+<div class="page">
+  <app-page-header title="Indicateurs cles (KPI)" subtitle="Performance et impact de la plateforme de detection"></app-page-header>
+
+  @if (loading()) {
+    <p>Chargement...</p>
+  } @else {
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-icon">&#9201;</span>
+        <span class="kpi-value">
+          @if (avgProcessingSeconds !== null) {
+            {{ avgProcessingSeconds | number: '1.1-2' }}<small>s</small>
+          } @else {
+            N/A
+          }
+        </span>
+        <span class="kpi-label">Temps de traitement moyen</span>
+        <span class="kpi-sub">Reception de la transaction &rarr; decision finale</span>
+      </div>
+
+      <div class="kpi-card">
+        <span class="kpi-icon">&#128681;</span>
+        <span class="kpi-value">
+          @if (falsePositiveRate !== null) {
+            {{ falsePositiveRate | number: '1.0-1' }}<small>%</small>
+          } @else {
+            N/A
+          }
+        </span>
+        <span class="kpi-label">Taux de faux positifs</span>
+        <span class="kpi-sub">Alertes levees / alertes resolues ({{ resolvedAlertsCount }})</span>
+      </div>
+
+      <div class="kpi-card warn" [class.attention]="staleOpenAlerts.length > 0">
+        <span class="kpi-icon">&#9888;</span>
+        <span class="kpi-value">{{ staleOpenAlerts.length }}</span>
+        <span class="kpi-label">Alertes en attente +24h</span>
+        <span class="kpi-sub">Charge de travail des analystes</span>
+      </div>
+
+      <div class="kpi-card">
+        <span class="kpi-icon">&#127760;</span>
+        <span class="kpi-value">{{ distinctCountriesCount }}</span>
+        <span class="kpi-label">Pays distincts observes</span>
+        <span class="kpi-sub">Diversite geographique du trafic</span>
+      </div>
+
+      <div class="kpi-card wide">
+        <span class="kpi-icon">&#128176;</span>
+        <span class="kpi-label">Montant total bloque, par devise</span>
+        <div class="kpi-currency-list">
+          @for (c of blockedAmountByCurrency; track c.currency) {
+            <div class="kpi-currency-row">
+              <span class="kpi-currency-code">{{ c.currency }}</span>
+              <span class="kpi-currency-total">{{ c.total | number: '1.0-0' }}</span>
+            </div>
+          } @empty {
+            <p class="empty-note">Aucune transaction bloquee.</p>
+          }
+        </div>
+      </div>
+
+      <div class="kpi-card wide">
+        <span class="kpi-icon">&#128293;</span>
+        <span class="kpi-label">Transaction la plus elevee bloquee</span>
+        @if (biggestBlockedTransaction; as tx) {
+          <div class="kpi-highlight">
+            <span class="kpi-highlight-amount">{{ tx.amount | number: '1.0-0' }} {{ tx.currency }}</span>
+            <span class="kpi-highlight-meta">Pays : {{ tx.country || 'Non renseigne' }} - Canal : {{ tx.channel }}</span>
+          </div>
+        } @else {
+          <p class="empty-note">Aucune transaction bloquee.</p>
+        }
+      </div>
+
+      <div class="kpi-card wide">
+        <span class="kpi-icon">&#129504;</span>
+        <span class="kpi-label">Precision du modele ML en production</span>
+        @if (modelMetadata(); as meta) {
+          <div class="kpi-model">
+            <div class="kpi-model-row">
+              <span>ROC AUC</span>
+              <strong>{{ meta.roc_auc | number: '1.3-4' }}</strong>
+            </div>
+            <div class="kpi-model-row">
+              <span>Version du modele</span>
+              <strong>{{ meta.model_version }}</strong>
+            </div>
+            <div class="kpi-model-row">
+              <span>Donnees d'entrainement</span>
+              <strong>{{ meta.training_rows | number: '1.0-0' }} lignes</strong>
+            </div>
+            <div class="kpi-model-row">
+              <span>Entraine le</span>
+              <strong>{{ meta.trained_at | date: 'short' }}</strong>
+            </div>
+          </div>
+        } @else {
+          <p class="empty-note">Metadonnees du modele indisponibles.</p>
+        }
+      </div>
+    </div>
+  }
+</div>

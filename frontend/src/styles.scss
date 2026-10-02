@@ -5,12 +5,12 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', system-ui, sans-serif;
-  background: #f1f5f9;
-  color: #0f172a;
+  background: #060b0f;
+  color: #f1f5f3;
 }
 
 .page {
-  padding: 2.25rem 2.5rem;
+  padding: 1.6rem 2rem;
   max-width: 1600px;
   margin: 0;
 
@@ -18,66 +18,44 @@ body {
     font-size: 1.6rem;
     font-weight: 700;
     margin: 0;
-    color: #0a2540;
+    color: #f1f5f3;
   }
 
   h2 {
     font-size: 1.05rem;
     font-weight: 700;
-    margin: 2.25rem 0 1rem;
-    color: #0a2540;
+    margin: 1.5rem 0 0.75rem;
+    color: #f1f5f3;
   }
-}
-
-.page-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.header-logo {
-  width: 52px;
-  height: 52px;
-  object-fit: contain;
-  background: #fff;
-  border-radius: 12px;
-  padding: 6px;
-  box-shadow: 0 2px 8px rgba(10, 37, 64, 0.12);
-}
-
-.header-subtitle {
-  margin: 0.2rem 0 0;
-  color: #64748b;
-  font-size: 0.88rem;
 }
 
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.1rem;
-  margin-bottom: 1rem;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .card {
-  background: #fff;
+  background: #0d1815;
   border-radius: 14px;
-  padding: 1.4rem 1.5rem;
-  box-shadow: 0 1px 3px rgba(10, 37, 64, 0.06);
+  padding: 1.05rem 1.2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  border: 1px solid #eef2f7;
-  border-top: 3px solid #94a3b8;
+  border: 1px solid #182722;
+  border-top: 3px solid #3a4b45;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
   position: relative;
-  transition: box-shadow 0.18s ease, transform 0.18s ease;
+  transition: box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
 
   &:hover {
-    box-shadow: 0 10px 24px rgba(10, 37, 64, 0.1);
+    box-shadow: 0 10px 28px rgba(249, 178, 60, 0.14);
     transform: translateY(-2px);
+    border-color: #f9b23c;
   }
 
   .card-icon {
@@ -85,11 +63,11 @@ body {
     top: 1.1rem;
     right: 1.2rem;
     font-size: 1.3rem;
-    opacity: 0.5;
+    opacity: 0.6;
   }
 
   &.open {
-    border-top-color: #d4af37;
+    border-top-color: #f9b23c;
   }
 
   &.monitored {
@@ -97,40 +75,41 @@ body {
   }
 
   &.blocked {
-    border-top-color: #dc2626;
+    border-top-color: #f87171;
   }
 
   .value {
     font-size: 2.1rem;
     font-weight: 800;
-    color: #0a2540;
+    color: #f1f5f3;
   }
 
   .label {
     font-size: 0.8rem;
-    color: #64748b;
+    color: #7b8f88;
   }
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
+  background: #0d1815;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 
   th,
   td {
     text-align: left;
-    padding: 0.75rem 1rem;
+    padding: 0.55rem 0.9rem;
     font-size: 0.88rem;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid #182722;
+    color: #d5e3de;
   }
 
   th {
-    background: #f8fafc;
-    color: #475569;
+    background: #0a1512;
+    color: #7b8f88;
     font-weight: 600;
     font-size: 0.78rem;
     text-transform: uppercase;
@@ -139,6 +118,10 @@ table {
 
   tr:last-child td {
     border-bottom: none;
+  }
+
+  tr:hover td {
+    background: rgba(249, 178, 60, 0.04);
   }
 }
 
@@ -156,35 +139,54 @@ table {
   text-transform: uppercase;
 
   &.accepted {
-    background: #dcfce7;
-    color: #166534;
+    background: rgba(0, 217, 163, 0.15);
+    color: #00d9a3;
   }
 
   &.monitored {
-    background: #ffedd5;
-    color: #9a3412;
+    background: rgba(249, 115, 22, 0.15);
+    color: #fb923c;
   }
 
   &.blocked {
-    background: #fee2e2;
-    color: #991b1b;
+    background: rgba(248, 113, 113, 0.15);
+    color: #f87171;
   }
 
   &.active {
-    background: #dbeafe;
-    color: #1e40af;
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
   }
 
   &.inactive {
-    background: #f1f5f9;
-    color: #64748b;
+    background: rgba(148, 168, 162, 0.12);
+    color: #94a8a2;
+  }
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.1rem;
+
+  .pagination-info {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #94a8a2;
+  }
+
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
   }
 }
 
 .link {
   display: inline-block;
   margin-top: 1rem;
-  color: #2563eb;
+  color: #f9b23c;
   text-decoration: none;
   font-size: 0.9rem;
 
@@ -202,29 +204,274 @@ table {
   font-weight: 500;
 
   &.btn-primary {
-    background: #2563eb;
-    color: #fff;
+    background: linear-gradient(135deg, #f9b23c, #f0951c);
+    color: #2a1a02;
+    font-weight: 700;
 
     &:hover {
-      background: #1d4ed8;
+      filter: brightness(1.08);
     }
   }
 
   &.btn-danger {
-    background: #fee2e2;
-    color: #991b1b;
+    background: rgba(248, 113, 113, 0.15);
+    color: #f87171;
 
     &:hover {
-      background: #fecaca;
+      background: rgba(248, 113, 113, 0.25);
     }
   }
 
   &.btn-secondary {
-    background: #f1f5f9;
-    color: #334155;
+    background: #14231e;
+    color: #d5e3de;
 
     &:hover {
-      background: #e2e8f0;
+      background: #1c2e28;
+    }
+  }
+}
+
+/* ==============================================================
+   Mode clair - regles GLOBALES (voir note plus haut : ne jamais
+   mettre ces regles dans le .scss d'un composant, "body" ne recoit
+   jamais l'attribut [_ngcontent-xxx] qu'Angular ajoute automatiquement).
+   La sidebar et le login gardent l'identite "Vagues officielles"
+   (marine/jaune) dans les deux modes ; seul le contenu bascule.
+   ============================================================== */
+body[data-color-mode="light"] {
+  background: #f4f6fa !important;
+  color: #1c2740 !important;
+
+  .content {
+    background: #f4f6fa !important;
+  }
+
+  .page h1,
+  .page h2 {
+    color: #12386b !important;
+  }
+
+  /* Le bandeau ondule (page-header) reste toujours sur fond marine :
+     son titre/sous-titre doivent rester blancs, meme en mode clair. */
+  .theme-banner-content h1,
+  .theme-banner-content .header-subtitle {
+    color: #fff !important;
+  }
+
+  .card {
+    background: #ffffff !important;
+    border-color: #e2e8f5 !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08) !important;
+
+    .value {
+      color: #12386b !important;
+    }
+
+    .label {
+      color: #64748b !important;
+    }
+  }
+
+  table {
+    background: #ffffff !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08) !important;
+
+    th,
+    td {
+      color: #33475b !important;
+      border-bottom-color: #eef1f7 !important;
+    }
+
+    th {
+      background: #f7f9fc !important;
+      color: #64748b !important;
+    }
+
+    tr:hover td {
+      background: rgba(249, 178, 60, 0.06) !important;
+    }
+  }
+
+  .link {
+    color: #0c2a52 !important;
+  }
+
+  .btn.btn-secondary {
+    background: #eef1f7 !important;
+    color: #33475b !important;
+
+    &:hover {
+      background: #e2e8f5 !important;
+    }
+  }
+
+  .empty-note,
+  .chart-subtitle,
+  .header-subtitle,
+  .pagination-info {
+    color: #64748b !important;
+  }
+
+  /* ---- Dashboard : widgets specifiques ---- */
+  .chart-card,
+  .gauge-card,
+  .detection-band {
+    background: #ffffff !important;
+    border-color: #e2e8f5 !important;
+  }
+
+  .chart-title,
+  .gauge-inner,
+  .detection-inner strong,
+  .mini-donut-inner,
+  .vbar-value,
+  .bar-value {
+    color: #12386b !important;
+  }
+
+  .gauge-inner,
+  .detection-inner,
+  .mini-donut-inner {
+    background: #ffffff !important;
+  }
+
+  .gauge-label,
+  .vbar-label,
+  .bar-label,
+  .mini-donut-label,
+  .user-role {
+    color: #64748b !important;
+  }
+
+  .bar-track,
+  .vbar-track {
+    background: #eef1f7 !important;
+  }
+
+  .search-input {
+    background: #ffffff !important;
+    border-color: #dbe2ea !important;
+    color: #1c2740 !important;
+
+    &::placeholder {
+      color: #94a3b8 !important;
+    }
+  }
+
+  /* ---- KPI ---- */
+  .kpi-card {
+    background: #ffffff !important;
+    border-color: #e2e8f5 !important;
+  }
+
+  .kpi-value,
+  .kpi-currency-total,
+  .kpi-highlight-amount {
+    color: #12386b !important;
+  }
+
+  .kpi-label {
+    color: #33475b !important;
+  }
+
+  .kpi-sub,
+  .kpi-currency-code {
+    color: #64748b !important;
+  }
+
+  .kpi-currency-row {
+    background: #f7f9fc !important;
+  }
+
+  .kpi-model-row {
+    border-bottom-color: #eef1f7 !important;
+
+    strong {
+      color: #12386b !important;
+    }
+  }
+
+  /* ---- Regles ---- */
+  .rule-form {
+    background: #ffffff !important;
+    border-color: #e2e8f5 !important;
+  }
+
+  .rule-form label {
+    color: #33475b !important;
+
+    input,
+    select {
+      background: #ffffff !important;
+      border-color: #dbe2ea !important;
+      color: #1c2740 !important;
+    }
+  }
+
+  .note {
+    background: #f7f9fc !important;
+    border-color: #e2e8f5 !important;
+    color: #64748b !important;
+  }
+
+  /* ---- Alertes ---- */
+  .resolve-row td {
+    background: #f7f9fc !important;
+  }
+
+  .resolve-panel input {
+    background: #ffffff !important;
+    border-color: #dbe2ea !important;
+    color: #1c2740 !important;
+  }
+
+  /* ---- Detail transaction ---- */
+  .panel {
+    background: #ffffff !important;
+    border-color: #e2e8f5 !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08) !important;
+
+    h2 {
+      color: #12386b !important;
+    }
+  }
+
+  .field-label {
+    color: #64748b !important;
+  }
+
+  .justification {
+    color: #33475b !important;
+  }
+
+  /* ---- Login (formulaire uniquement, le panneau de marque reste marine) ---- */
+  .form-panel {
+    background: #ffffff !important;
+  }
+
+  .login-card {
+    h2 {
+      color: #12386b !important;
+    }
+
+    .subtitle,
+    .footer-note {
+      color: #64748b !important;
+    }
+
+    .field-name {
+      color: #33475b !important;
+    }
+
+    input {
+      background: #f7f9fc !important;
+      border-color: #dbe2ea !important;
+      color: #1c2740 !important;
+
+      &::placeholder {
+        color: #94a3b8 !important;
+      }
     }
   }
 }

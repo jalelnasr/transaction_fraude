@@ -1,4 +1,14 @@
-export type RuleType = 'AMOUNT_THRESHOLD' | 'GEOLOCATION' | 'VELOCITY' | 'TIME_PATTERN';
+export type RuleType =
+  | 'AMOUNT_THRESHOLD'
+  | 'GEOLOCATION'
+  | 'VELOCITY'
+  | 'TIME_PATTERN'
+  | 'NEW_BENEFICIARY'
+  | 'AMOUNT_DEVIATION'
+  | 'BLACKLISTED_ACCOUNT'
+  | 'STRUCTURING'
+  | 'LOCATION_CHANGE'
+  | 'NETWORK_CYCLE';
 
 export interface Rule {
   id: string;
@@ -12,6 +22,8 @@ export interface Rule {
   windowMinutes: number | null;
   nightStartHour: number | null;
   nightEndHour: number | null;
+  blacklistedAccounts: string | null;
+  deviationMultiplier: number | null;
   createdAt: string;
   updatedAt: string | null;
 }

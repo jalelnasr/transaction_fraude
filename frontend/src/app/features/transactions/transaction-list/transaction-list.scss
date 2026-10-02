@@ -1,8 +1,9 @@
 .row-link {
-  color: #2563eb;
+  color: inherit;
   text-decoration: none;
 
   &:hover {
+    color: #f9b23c;
     text-decoration: underline;
   }
 }

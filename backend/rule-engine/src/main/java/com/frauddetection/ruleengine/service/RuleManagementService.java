@@ -39,6 +39,8 @@ public class RuleManagementService {
                 .windowMinutes(dto.getWindowMinutes())
                 .nightStartHour(dto.getNightStartHour())
                 .nightEndHour(dto.getNightEndHour())
+                .blacklistedAccounts(dto.getBlacklistedAccounts())
+                .deviationMultiplier(dto.getDeviationMultiplier())
                 .createdAt(Instant.now())
                 .build();
 
@@ -62,6 +64,8 @@ public class RuleManagementService {
         rule.setWindowMinutes(dto.getWindowMinutes());
         rule.setNightStartHour(dto.getNightStartHour());
         rule.setNightEndHour(dto.getNightEndHour());
+        rule.setBlacklistedAccounts(dto.getBlacklistedAccounts());
+        rule.setDeviationMultiplier(dto.getDeviationMultiplier());
         rule.setUpdatedAt(Instant.now());
 
         ruleRepository.save(rule);

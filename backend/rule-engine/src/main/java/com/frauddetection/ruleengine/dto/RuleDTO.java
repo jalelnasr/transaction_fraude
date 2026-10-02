@@ -36,4 +36,6 @@ public class RuleDTO {
     private Integer windowMinutes;
     private Integer nightStartHour;
     private Integer nightEndHour;
+    private String blacklistedAccounts;
+    private Double deviationMultiplier;
 }

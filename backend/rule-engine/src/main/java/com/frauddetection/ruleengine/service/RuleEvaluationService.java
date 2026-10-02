@@ -71,6 +71,9 @@ public class RuleEvaluationService {
                 .id(UUID.randomUUID().toString())
                 .transactionId(transaction.getTransactionId())
                 .sourceAccountId(transaction.getSourceAccountId())
+                .destinationAccountId(transaction.getDestinationAccountId())
+                .amount(transaction.getAmount())
+                .country(transaction.getCountry())
                 .ruleScore(ruleScore)
                 .evaluatedAt(Instant.now())
                 .build());

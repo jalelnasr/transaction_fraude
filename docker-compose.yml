@@ -108,6 +108,20 @@ services:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:19092
 
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: fraud-n8n
+    environment:
+      N8N_HOST: localhost
+      N8N_PORT: "5678"
+      N8N_PROTOCOL: http
+      WEBHOOK_URL: http://localhost:5678/
+      GENERIC_TIMEZONE: Africa/Tunis
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n-data:/home/node/.n8n
+
   keycloak:
     image: quay.io/keycloak/keycloak:24.0
     container_name: fraud-keycloak
@@ -329,3 +343,4 @@ volumes:
   sonarqube-logs:
   jenkins-home:
   neo4j-data:
+  n8n-data:

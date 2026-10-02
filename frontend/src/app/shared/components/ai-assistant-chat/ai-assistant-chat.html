@@ -1,0 +1,62 @@
+<button
+  type="button"
+  class="chat-fab"
+  (click)="toggle()"
+  [class.is-open]="open()"
+  title="Assistant IA"
+>
+  @if (open()) {
+    <span>&#10005;</span>
+  } @else {
+    <span>&#129302;</span>
+  }
+</button>
+
+@if (open()) {
+  <div class="chat-panel">
+    <div class="chat-header">
+      <span class="dot"></span>
+      <div>
+        <div class="title">Assistant Analyste Fraude</div>
+        <div class="subtitle">IA locale &mdash; peut interroger vos donnees</div>
+      </div>
+    </div>
+
+    <div class="chat-messages">
+      @if (messages().length === 0) {
+        <p class="empty-hint">
+          Posez une question, par exemple : "Le compte ACC-CYCLE-A a-t-il un historique suspect ?"
+        </p>
+      }
+
+      @for (msg of messages(); track $index) {
+        <div class="msg" [class.user]="msg.role === 'user'" [class.assistant]="msg.role === 'assistant'">
+          {{ msg.text }}
+        </div>
+      }
+
+      @if (loading()) {
+        <div class="msg assistant loading">
+          <span></span><span></span><span></span>
+        </div>
+      }
+
+      @if (error()) {
+        <p class="chat-error">{{ error() }}</p>
+      }
+
+      <div #scrollAnchor></div>
+    </div>
+
+    <div class="chat-input-row">
+      <input
+        type="text"
+        placeholder="Ecrivez votre message..."
+        [(ngModel)]="input"
+        (keydown.enter)="send()"
+        [disabled]="loading()"
+      />
+      <button type="button" (click)="send()" [disabled]="loading() || !input.trim()">&#10148;</button>
+    </div>
+  </div>
+}

@@ -3,6 +3,16 @@
 
   <div class="layout">
     <aside class="sidebar" [class.collapsed]="layoutService.sidebarCollapsed()">
+      <svg class="sidebar-wave" viewBox="0 0 120 1200" preserveAspectRatio="none">
+        <path
+          d="M92,0 C40,220 108,420 68,620 C28,820 92,1000 52,1200"
+          fill="none"
+          stroke="#f9b23c"
+          stroke-width="3"
+          stroke-linecap="round"
+        />
+      </svg>
+
       <div class="brand">
         <img src="/images/bct-logo.jpg" alt="BCT" class="brand-logo" />
         <div class="brand-text">
@@ -24,6 +34,9 @@
         <a routerLink="/rules" routerLinkActive="active" title="Regles">
           <span class="icon">&#9881;</span> <span class="nav-label">Regles</span>
         </a>
+        <a routerLink="/kpi" routerLinkActive="active" title="KPI">
+          <span class="icon">&#128200;</span> <span class="nav-label">KPI</span>
+        </a>
       </nav>
 
       <div class="user-box">
@@ -44,6 +57,10 @@
       <router-outlet />
     </main>
   </div>
+
+  <app-ai-assistant-chat />
 } @else {
   <router-outlet />
 }
+
+<app-color-mode-toggle />

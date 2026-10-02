@@ -29,6 +29,15 @@ public class RuleExecution {
     @Column(name = "source_account_id", nullable = false)
     private String sourceAccountId;
 
+    @Column(name = "destination_account_id")
+    private String destinationAccountId;
+
+    @Column(name = "amount")
+    private java.math.BigDecimal amount;
+
+    @Column(name = "country")
+    private String country;
+
     @Column(name = "rule_score", nullable = false)
     private double ruleScore;
 
